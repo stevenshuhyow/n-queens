@@ -100,16 +100,32 @@ window.findNQueensSolution = function(n) {
     }
   }
   recursive([],[],[]);
-
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
-  return solution;
+  return solution || window.zeroArray(n);
 };
 
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
-  var solutionCount = undefined; //fixme
+  var solution=[];
 
-  console.log('Number of solutions for ' + n + ' queens:', solutionCount);
-  return solutionCount;
+
+  var recursive = function(key, majorKey, minorKey){
+      if(key.length === n){
+        solution.push(window.insert(key,n));
+      }
+      for(var i = 0; i < n; i ++){
+        if(key.indexOf(i) < 0){
+          var majorValue = i - key.length;
+          var minorValue = i + key.length;
+          if(majorKey.indexOf(majorValue) < 0 && minorKey.indexOf(minorValue) < 0){
+            recursive(key.concat(i), majorKey.concat(majorValue), minorKey.concat(minorValue));
+          }
+        }
+      }
+    }
+  recursive([],[],[]);
+
+  console.log('Number of solutions for ' + n + ' queens:', solution.length);
+  return solution.length;
 };
