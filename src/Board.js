@@ -83,10 +83,7 @@
       var sum = _.reduce(row, function(tally, item){
         return tally + item;
       });
-      if(sum < 2){
-        return false;
-      }
-      return true;
+      return sum > 1;
     },
 
     // test if any rows on this board contain conflicts
@@ -108,11 +105,11 @@
     hasColConflictAt: function(colIndex){
       var tally = 0;
       var row;
-      for(var i = 0 ; i < this.get('n'); i++){
+      for(var i = 0; i < this.get('n'); i++){
         row = this.get(i);
         tally += row[colIndex];
       }
-      return tally>1; // fixme
+      return tally > 1;
     },
 
     // test if any columns on this board contain conflicts
@@ -122,7 +119,7 @@
           return true;
         }
       }
-      return false; // fixme
+      return false;
     },
 
 
@@ -133,24 +130,27 @@
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
       var tally = 0;
-      var dimensions = this.get('n');
+      var dimension = this.get('n');
       var start = majorDiagonalColumnIndexAtFirstRow;
-      for(var i = 0 ; i < dimensions ; i ++){
-        var row = this.get(i);
-        tally += row[start+i] || 0;
+      var row;
+      for(var i = 0; i < dimension; i++){
+        if(0 < start + i < dimension){
+          row = this.get(i);
+          tally += row[start + i] || 0;
+        }
       }
-      return tally>1; // fixme
+      return tally > 1;
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
       var dimensions = this.get('n');
-      for(var i = -(dimensions-2); i < dimensions-1 ; i ++){
+      for(var i = 2-dimensions; i < dimensions-1; i++){
         if(this.hasMajorDiagonalConflictAt(i)){
           return true;
         }
       }
-      return false; // fixme
+      return false;
     },
 
 

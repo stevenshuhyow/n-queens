@@ -108,7 +108,7 @@ window.findNQueensSolution = function(n) {
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
-  var solution=0;
+  var solution = 0;
 
 
   var recursive = function(key, majorKey, minorKey){
