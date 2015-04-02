@@ -79,7 +79,27 @@ window.countNRooksSolutions = function(n) {
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
-  var solution = undefined; //fixme
+  var solution;
+
+
+  var recursive = function(key, majorKey, minorKey){
+    if(!solution){
+      if(key.length === n){
+        solution = window.insert(key,n);
+        return;
+      }
+      for(var i = 0; i < n; i ++){
+        if(key.indexOf(i) < 0){
+          var majorValue = i - key.length;
+          var minorValue = i + key.length;
+          if(majorKey.indexOf(majorValue) < 0 && minorKey.indexOf(minorValue) < 0){
+            recursive(key.concat(i), majorKey.concat(majorValue), minorKey.concat(minorValue));
+          }
+        }
+      }
+    }
+  }
+  recursive([],[],[]);
 
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
   return solution;
